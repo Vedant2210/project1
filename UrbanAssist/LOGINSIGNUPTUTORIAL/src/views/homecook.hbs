@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Cook Booking Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('/images/cook.jpg'); /* Path to your background image */
+            background-size: cover; /* Cover the entire background */
+            background-repeat: no-repeat; /* Do not repeat the background image */
+            background-position: center; /* Center the background image */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: grid;
+            grid-gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        select {
+            height: 40px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            text-align: center;
+            margin-top: 20px;
+            color: #4caf50;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Book a Home Cook</h2>
+    <form action="/book" method="POST" onsubmit="handleFormSubmission(event);">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="address">Address</label>
+        <select id="address" name="address" onchange="populatePincode()" required>
+            <option value="">Select Address</option>
+            <option value="Tech Zone-2">Tech Zone-2</option>
+            <option value="XU 3">XU 3</option>
+        </select>
+
+        <label for="pincode">Pincode</label>
+        <input type="text" id="pincode" name="pincode" readonly>
+
+        <label for="completeaddress">Complete Address</label>
+        <input type="text" id="completeaddress" name="completeaddress" required>
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="timeslot">Preferred Time Slot</label>
+        <select id="timeslot" name="timeslot" required>
+            <option value="">Select Time Slot</option>
+            <option value="9AM-12PM">9AM-12PM</option>
+            <option value="12PM-3PM">12PM-3PM</option>
+            <option value="3PM-6PM">3PM-6PM</option>
+            <option value="6PM-9PM">6PM-9PM</option>
+        </select>
+
+        <input type="submit" value="Book">
+    </form>
+
+    <p class="message" id="successMessage"></p>
+</div>
+
+<script src="https://smtpjs.com/v3/smtp.js"></script>
+<script>
+    function sendEmail() {
+        console.log("Sending email...");
+        
+        return new Promise((resolve, reject) => {
+            Email.send({
+                Host: "smtp.elasticemail.com", // Replace with your SMTP server address
+                Username: "nigamvedant100@gmail.com", // Replace with your email address
+                Password: "EE7F0CD8E2B86963A45C7A6F70C1248AD4B6", // Replace with your email password or SMTP token
+                To: 'vineetnigam1166@gmail.com',
+                From: "vedantnigam100@gmail.com", // Replace with your email address
+                Subject: "Booking Confirmation",
+                Body: "Your booking has been confirmed. Thank you for choosing us!"
+            }).then(
+                message => {
+                    console.log("Email sent:", message);
+                    resolve(); // Resolve the promise after email is sent
+                }
+            ).catch(
+                error => {
+                    console.error("Error sending email:", error);
+                    reject(error); // Reject the promise if there's an error
+                }
+            );
+        });
+    }
+
+</script>
+<script>
+    async function handleFormSubmission(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        try {
+            // Send the email and wait for it to complete
+            await sendEmail();
+
+            // Display the "Booking successful" message after email is sent
+            document.getElementById("successMessage").innerText = "Booking successful";
+        } catch (error) {
+            console.error("Error during form submission:", error);
+            alert("An error occurred during form submission");
+        }
+
+        // Optionally, submit the form programmatically
+        event.target.submit();
+    }
+</script>
+<script>
+    function populatePincode() {
+        var addressDropdown = document.getElementById("address");
+        var pincodeInput = document.getElementById("pincode");
+
+        // Check if "Tech Zone-2" is selected
+        if (addressDropdown.value === "Tech Zone-2") {
+            // Set the pincode value to your desired pincode for Tech Zone-2
+            pincodeInput.value = "201310";
+        } 
+        else if(addressDropdown.value === "XU 3") {
+            pincodeInput.value = "203202";
+        }
+        else {
+            // Clear the pincode input if another option is selected
+            pincodeInput.value = "";
+        }
+    }
+</script>
+</body>
+</html>

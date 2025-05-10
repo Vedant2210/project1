@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Successful</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+               font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    background-image: url('/images/pest2.jpg');
+    background-size: cover; /* Ensure the entire image is visible */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-position: center; /* Center the background image */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Set the height to the full viewport height */
+        }
+
+        .message-container {
+            background-color: #824ba7;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="message-container">
+    <h1>Booking Successful</h1>
+    <p>Your booking has been successfully confirmed with Pest Controller <strong id="pestname"></strong>!</p>
+    <p>He will be arriving soon at your home</p>
+    <a href="/index">Go back to home OR </a>
+    <a href="/check_out">Pay Now</a>
+</div>
+
+<script>
+    // Retrieve the chef's name from the URL parameters
+    const params = new URLSearchParams(window.location.search);
+    const pest = params.get('pestname');
+    
+    // Display the chef's name in the HTML
+    document.getElementById('pestname').innerText = pest;
+</script>
+
+</body>
+</html>

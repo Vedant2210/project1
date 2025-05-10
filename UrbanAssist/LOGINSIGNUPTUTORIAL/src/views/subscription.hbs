@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Model</title>
+    <style>
+        body {
+             font-family: Arial, sans-serif;
+            background-image: url('/images/im.jpg'); /* Path to your background image */
+            background-size: cover; /* Cover the entire background */
+            background-repeat: no-repeat; /* Do not repeat the background image */
+            background-position: center; /* Center the background image */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        input[type="tel"],
+        textarea, /* Added to style textarea */
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Subscription Form</h2>
+    <form id="subscription-form" action="/subscription1" method="POST">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="address">Address:</label>
+            <select id="address" name="address" onchange="populatePincode()" required>
+            <option value="">Select Address</option>
+            <option value="Tech Zone-2">Tech Zone-2</option>
+            <option value="XU 3">XU 3</option>
+        </select>
+        </div>
+        <div class="form-group">
+            <label for="pincode">Pincode:</label>
+            <input type="text" id="pincode" name="pincode" required>
+        </div>
+        <div class="form-group">
+            <label for="completeaddress">Complete Address:</label>
+            <textarea id="completeaddress" name="completeaddress" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="service">Choose Service:</label>
+            <select id="service" name="service" required>
+                <option value="">Select Service</option>
+                <option value="homecook">HomeCook</option>
+                <option value="pestcontrol">PestControl</option>
+                <option value="gardening">Gardening</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="duration">Choose Duration:</label>
+            <select id="duration" name="duration" required onchange="updateOptions()">
+                <option value="">Select Duration</option>
+                <option value="monthly">Monthly</option>
+                <option value="quarterly">Quarterly</option>
+                <option value="yearly">Yearly</option>
+            </select>
+        </div>
+        <div class="form-group" id="frequency-group" style="display: none;">
+            <label for="frequency">Choose Frequency:</label>
+            <select id="frequency" name="frequency">
+                <!-- Options will be dynamically populated based on the selected duration -->
+            </select>
+        </div>
+        <input type="submit" value="Subscribe">
+    </form>
+</div>
+
+<script>
+    function updateOptions() {
+        var duration = document.getElementById("duration").value;
+        var frequencySelect = document.getElementById("frequency");
+        var frequencyGroup = document.getElementById("frequency-group");
+        
+        if (duration === "monthly") {
+            frequencySelect.innerHTML = `
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+            `;
+        } else if (duration === "quarterly") {
+            frequencySelect.innerHTML = `
+                <option value="monthly">Monthly</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+            `;
+        } else if (duration === "yearly") {
+            frequencySelect.innerHTML = `
+                <option value="quarterly">Quarterly</option>
+                <option value="monthly">Monthly</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+            `;
+        }
+        
+        frequencyGroup.style.display = duration !== "" ? "block" : "none";
+    }
+</script>
+<script>
+    function populatePincode() {
+        var addressDropdown = document.getElementById("address");
+        var pincodeInput = document.getElementById("pincode");
+
+        // Check if "Tech Zone-2" is selected
+        if (addressDropdown.value === "Tech Zone-2") {
+            // Set the pincode value to your desired pincode for Tech Zone-2
+            pincodeInput.value = "201310";
+        } 
+        else if(addressDropdown.value === "XU 3") {
+            pincodeInput.value = "203202";
+        }
+        else {
+            // Clear the pincode input if another option is selected
+            pincodeInput.value = "";
+        }
+    }
+</script>
+</body>
+</html>
